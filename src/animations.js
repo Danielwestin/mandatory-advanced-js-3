@@ -37,7 +37,11 @@ export function fadeIn(title, form) {
 
 }
 
-export function deleteFadeOut(li, ) {
+export function deleteFadeOut(li, remove) {
   console.log(li);
-
+  gsap.to(li, {
+    duration: 1,
+    opacity: 0,
+    onComplete: remove,
+  })
 }

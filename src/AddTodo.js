@@ -14,7 +14,7 @@ class AddTodo extends React.Component {
   deleteLi = (id) => {
     deleteFadeOut(
       this.deleteLiRef.current,
-      this.props.deleteTodo()
+      () => this.props.deleteTodo(id),
     )
   }
 
@@ -35,7 +35,7 @@ class AddTodo extends React.Component {
                   <Linkify>{todo.content}</Linkify>
                   <button
                     className="delete-button"
-                    onClick={() => this.props.deleteTodo(todo.id)}>
+                    onClick={() => this.deleteLi(todo.id)}>
                      <MaterialIcon icon="delete_forever"/>
                   </button>
                 </li>

@@ -5,7 +5,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import MaterialIcon from 'material-icons-react';
 import {Redirect} from 'react-router-dom';
-import TodoTable from './TodoTable'
+import AddTodo from './AddTodo'
 
 class Home extends React.Component {
   constructor (props) {
@@ -123,7 +123,7 @@ class Home extends React.Component {
             </button>
             </form>
 
-            <TodoTable
+            <AddTodo
               todo={this.state.todo}
               deleteTodo={this.deleteTodo}
               />

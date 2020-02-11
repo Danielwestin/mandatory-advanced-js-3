@@ -40,7 +40,8 @@
   background: linear-gradient(to bottom, lightgray, white);
   background-image: url("./images/vitmarmor.jpg");
   background-size: contain;
-  border: solid 1px lightgray
+  border: solid 1px lightgray;
+  box-shadow: 14px 15px 37px 5px rgba(0,0,0,0.75);
 }
 
 .todo-container ul li {
