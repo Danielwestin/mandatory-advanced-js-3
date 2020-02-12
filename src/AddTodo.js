@@ -5,15 +5,10 @@ import {deleteFadeOut} from './animations'
 
 
 class AddTodo extends React.Component {
-  constructor(props){
-    super(props)
 
-    this.deleteLiRef = React.createRef();
-  }
-
-  deleteLi = (id) => {
+  deleteLi = (node, id) => {
     deleteFadeOut(
-      this.deleteLiRef.current,
+      node,
       () => this.props.deleteTodo(id),
     )
   }
@@ -27,19 +22,16 @@ class AddTodo extends React.Component {
           {
             this.props.todo
             .map(todo => {
-              return (
-                <>
+              return (  
                 <li
-                  key={todo.id}
-                  ref={this.deleteLiRef}>
+                  key={todo.id}>
                   <Linkify>{todo.content}</Linkify>
                   <button
                     className="delete-button"
-                    onClick={() => this.deleteLi(todo.id)}>
+                    onClick={(e) => this.deleteLi(e.target.parentElement.parentElement, todo.id)}>
                      <MaterialIcon icon="delete_forever"/>
                   </button>
                 </li>
-                </>
               )
             })
           }

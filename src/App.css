@@ -87,17 +87,25 @@
 }
 
 .logout-button::before{
-  content: "";
-  position: relative;
-  height: 0px;
-  width: 0px;
+  content: "Close";
+  position: absolute;
+  opacity: 0;
 }
 
 .logout-button:hover::before{
+  opacity: 1;
+  position: absolute;
+  left: 10px;
+  color: white;
+  transition: 1s ease;
+}
+
+.logout-button:hover{
   content: "";
   position: absolute;
   transition: all 0.3s ease;
   background-color: red;
+  color: transparent;
   width: 50px;
   height: 20px;
   border-radius: 5px;
