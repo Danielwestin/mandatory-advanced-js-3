@@ -21,7 +21,6 @@ gsap.to(front, {
 }
 
 export function fadeIn(title, form) {
-  console.log(title, form);
 
   gsap.timeline()
   .from(title, {
@@ -38,7 +37,7 @@ export function fadeIn(title, form) {
 }
 
 export function deleteFadeOut(li, remove) {
-  console.log(li);
+  
   gsap.to(li, {
     duration: 1,
     opacity: 0,

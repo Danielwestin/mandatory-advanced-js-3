@@ -1,9 +1,8 @@
 import React from 'react';
 import {Helmet} from 'react-helmet-async';
-import {Route, BrowserRouter as Router, Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {token$, updateToken} from './store';
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
 import MaterialIcon from 'material-icons-react';
 import './Css/Login.css'
 import {slide, fadeIn} from './animations'
@@ -12,6 +11,7 @@ class Home extends React.Component {
   constructor (props) {
     super(props)
 
+    this.source = axios.CancelToken.source();
 
     this.state = {
       user: {
@@ -39,6 +39,7 @@ class Home extends React.Component {
 
   componentWillUnmount = () => {
     this.subscription.unsubscribe();
+    this.source.cancel();
   }
 
   goToRegister = () => {
@@ -67,7 +68,9 @@ class Home extends React.Component {
       email: this.state.user.email,
       password: this.state.user.password,
     };
-    axios.post(`http://3.120.96.16:3002/auth`, authData)
+    axios.post(`http://3.120.96.16:3002/auth`, authData, {
+      cancelToken: this.source.token,
+    })
       .then(response => {
         updateToken(response.data.token)
 
@@ -132,6 +135,7 @@ class Home extends React.Component {
                   type="password"
                   id="password-id"
                   placeholder="Password"
+                  autoComplete="off"
                   value={this.state.password}
                   onChange={this.onChange}
                 />

@@ -11,6 +11,8 @@ class Home extends React.Component {
   constructor (props) {
     super(props)
 
+    this.source = axios.CancelToken.source();
+
     this.state = {
       user: {},
       token: token$.value,
@@ -29,10 +31,12 @@ class Home extends React.Component {
 
   componentWillUnmount = () => {
     this.subscription.unsubscribe();
+    this.source.cancel();
   }
 
   deleteTodo = (id) => {
     axios.delete(`http://3.120.96.16:3002/todos/${id}`, {
+      cancelToken: this.source.token,
       headers: {
         Authorization: `Bearer ${this.state.token}`,
       }
@@ -44,6 +48,7 @@ class Home extends React.Component {
 
   getTodo = () => {
     axios.get(`http://3.120.96.16:3002/todos`, {
+      cancelToken: this.source.token,
       headers: {
         Authorization: `Bearer ${this.state.token}`,
       }
@@ -69,6 +74,7 @@ class Home extends React.Component {
   postTodo = (e) => {
     e.preventDefault();
     axios.post(`http://3.120.96.16:3002/todos`, { content: this.state.content}, {
+      cancelToken: this.source.token,
       headers: {
               Authorization: `Bearer ${this.state.token}`,
           },
@@ -79,17 +85,12 @@ class Home extends React.Component {
     .then(() => {
       this.setState({content: ''})
     })
-
   }
 
   setUser = () => {
     const decoded = jwt.decode(token$.value);
     this.setState({user: decoded})
   }
-
-
-
-
 
   render() {
     if (!this.state.token) {

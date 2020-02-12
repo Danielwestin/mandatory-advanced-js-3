@@ -84,6 +84,7 @@
   left: -5px;
   box-shadow: -10px -8px 31px 0px rgba(0,0,0,0.75);
   transition: all 0.5s ease;
+  line-height: 0;
 }
 
 .logout-button::before{
@@ -135,4 +136,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Helmet} from 'react-helmet-async';
-import {Route, BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {token$, updateToken} from './store';
 import MaterialIcon from 'material-icons-react';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import {slide, fadeIn} from './animations';
 class Register extends React.Component {
   constructor (props) {
     super(props)
+
+    this.source = axios.CancelToken.source();
 
     this.state = {
       user: {
@@ -37,6 +39,7 @@ class Register extends React.Component {
 
   componentWillUnmount = () => {
     this.subscription.unsubscribe();
+    this.source.cancel();
   }
 
   goToLogin = () => {
@@ -64,12 +67,15 @@ class Register extends React.Component {
 
   register = (e) => {
     e.preventDefault();
-    axios.post(`http://3.120.96.16:3002/register`, this.state.user)
+    axios.post(`http://3.120.96.16:3002/register`, this.state.user, {
+      cancelToken: this.source.token,
+    })
       .then(response => {
-        return axios.post(`http://3.120.96.16:3002/auth`, this.state.user)
+        return axios.post(`http://3.120.96.16:3002/auth`, this.state.user, {
+          cancelToken: this.source.token,
+        })
       })
       .then (response => {
-        console.log(response.data.token);
         updateToken(response.data.token);
       })
       .then(() => {
@@ -140,6 +146,7 @@ class Register extends React.Component {
                   name="password"
                   type="password"
                   placeholder="Password"
+                  autoComplete="off"
                   onChange={this.onChange}
                   value={this.state.user.password}
                 />
